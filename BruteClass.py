@@ -48,8 +48,13 @@ class BruteForce(object):
 
     def password(self):
         """Function returning password for searched hash, if doesnt found returns -1."""
+        progress = 0
+        number_of_combination = pow(len(self.alphabet), self.length - 1) * len(self.first_letters)
         for assumed_password in self._generate_password(self.length, self.alphabet, self.first_letters):
             assumed_hash = self._MD5_hash(assumed_password)
+            if progress % 10 == 0:
+                print 'progress %d' % int(100 * float(progress) / float(number_of_combination))
+            progress = progress + 1
             if assumed_hash == self.hash:
                 return assumed_password
         return -1
